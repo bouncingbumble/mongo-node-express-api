@@ -13,3 +13,8 @@ DB function will be in models/schemaName in this case, todo
 
 
 The index file contains the server, express configuration, and the root route
+
+Helpful links</br>
+https://nodejs.org/api/index.html<br/>
+https://expressjs.com/en/4x/api.html<br/>
+https://mongoosejs.com/docs/queries.html
