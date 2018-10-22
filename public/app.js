@@ -8,8 +8,13 @@ $(document).ready(() => {
         }
     })
 
-    $('.list').on('click', 'span', function() {
+    $('.list').on('click', 'span', function(e) {
+        e.stopPropagation();
         deleteTodo($(this).parent());
+    })
+
+    $('.list').on('click', 'li', function() {
+        completeTodo($(this));
     })
 });
 
@@ -33,8 +38,8 @@ function createTodo(){
 
 function addTodo(todo){
     var newTodo = $('<li class="task">' + todo.name + ' <span>x</span></li>');
-    console.log(todo._id)
     newTodo.data('id', todo._id);
+    newTodo.data('completed', todo.completed);
     if(todo.completed){
         newTodo.addClass("done");
     }
@@ -43,7 +48,7 @@ function addTodo(todo){
 
 function deleteTodo(todo){
     var id = todo.data('id');
-    console.log(todo.data.id)
+
     $.ajax({
         method: 'DELETE',
         url: '/api/todos/' + id,
@@ -56,4 +61,20 @@ function deleteTodo(todo){
 
 function getTodo(){
 
+}
+
+function completeTodo(todo){
+    var id = todo.data('id');
+    var isDone = todo.data('completed');
+    var updateData = {completed: !isDone};
+    $.ajax({
+        method: 'PUT',
+        url: '/api/todos/' + id,
+        data: updateData
+    })
+    .then(data => {
+        console.log(data);
+        todo.toggleClass("done");
+        todo.data('completed', isDone);
+    })
 }
